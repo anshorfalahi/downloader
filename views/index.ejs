@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>All In One Downloader</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='90' font-size='90'>📥</text></svg>" type="image/svg+xml">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <style>
+      body {
+        background-color: #1a202c;
+        color: white;
+        overflow: hidden;
+      }
+      #particles-js {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        z-index: 0;
+      }
+      .content {
+        position: relative;
+        z-index: 1;
+        background-color: rgba(31, 41, 55, 0.85);
+        backdrop-filter: blur(10px);
+      }
+    </style>
+  </head>
+  <body class="min-h-screen flex items-center justify-center">
+    <div id="particles-js"></div>
+    <div class="content w-full max-w-lg p-8 rounded-3xl shadow-2xl relative transform transition-all duration-300 hover:scale-105 hover:shadow-3xl">
+      <h1 class="text-3xl font-bold text-center mb-4 text-blue-400">All In One Downloader</h1>
+      <p class="text-center text-gray-400 mb-6">Mendukung: YouTube, Facebook, Instagram, TikTok, Twitter</p>
+      <% if (typeof error !== 'undefined') { %>
+      <div class="bg-red-500 text-white p-3 rounded-lg mb-4 text-center font-semibold"><%= error %></div>
+      <% } %>
+      <form action="/download" method="POST" oninput="detectPlatform()" class="space-y-4">
+        <div>
+          <input type="url" id="url" name="url" class="w-full p-3 text-gray-600 rounded-lg border focus:border-blue-500 focus:ring focus:ring-blue-500 shadow-inner" placeholder="Masukkan URL" required>
+        </div>
+        <input type="hidden" id="platform" name="platform" />
+        <button type="submit" class="w-full py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-lg hover:bg-blue-700 transition-all transform hover:scale-105">Download Sekarang</button>
+      </form>
+      <p class="text-center text-sm text-gray-600 dark:text-gray-300">Menggunakan <a href="https://www.npmjs.com/package/btch-downloader" target="_blank" class="text-blue-600 dark:text-blue-400 underline font-semibold">btch-downloader</a>, 
+      <a href="https://www.npmjs.com/package/@tobyg74/tiktok-api-dl" target="_blank" class="text-blue-600 dark:text-blue-400 underline font-semibold">@tobyg74/tiktok-api-dl</a>, &
+      <a href="https://www.npmjs.com/package/nayan-videos-downloader" target="_blank" class="text-blue-600 dark:text-blue-400 underline font-semibold">nayan-videos-downloader</a></p>
+    </div>
+    
+    <script>
+      function detectPlatform() {
+        const urlInput = document.getElementById("url").value;
+        const platformInput = document.getElementById("platform");
+        if (urlInput.includes("youtube.com") || urlInput.includes("youtu.be")) {
+          platformInput.value = "youtube";
+        } else if (urlInput.includes("facebook.com")) {
+          platformInput.value = "facebook";
+        } else if (urlInput.includes("instagram.com")) {
+          platformInput.value = "instagram";
+        } else if (urlInput.includes("tiktok.com")) {
+          platformInput.value = "tiktok";
+        } else if (urlInput.includes("twitter.com") || urlInput.includes("x.com")) {
+          platformInput.value = "twitter";
+        } else {
+          platformInput.value = "";
+        }
+      }
+      
+      particlesJS("particles-js", {
+        particles: {
+          number: { value: 80 },
+          size: { value: 3 },
+          move: {
+            enable: true,
+            speed: 3,
+            out_mode: "bounce"
+          },
+          line_linked: { enable: true },
+        },
+        interactivity: {
+          detect_on: "canvas",
+          events: {
+            onhover: {
+              enable: true,
+              mode: "repulse"
+            }
+          },
+          modes: {
+            repulse: {
+              distance: 100,
+              duration: 0.4
+            }
+          }
+        }
+      });
+    </script>
+  </body>
+</html>

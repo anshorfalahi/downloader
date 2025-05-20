@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <title>All In One Downloader</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='90' font-size='90'>📥</text></svg>" type="image/svg+xml">    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <style>
+      [data-theme="dark"] {
+        background-color: #1a202c;
+        color: white;
+      }
+      #particles-js {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        z-index: 0;
+      }
+      .content {
+        position: relative;
+        z-index: 1;
+        background-color: rgba(31, 41, 55, 0.85);
+        backdrop-filter: blur(10px);
+        padding: 2rem;
+        border-radius: 1.5rem;
+        box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.3);
+      }
+    </style>
+  </head>
+  <body class="min-h-screen flex items-center justify-center px-4 md:px-0">
+    <div id="particles-js"></div>
+    <div class="content w-full max-w-lg relative">
+      <h1 class="text-2xl font-bold text-center mb-4 text-blue-400">All In One Downloader</h1>
+      <a href="/" class="block text-center text-sm mb-4 text-gray-400 hover:text-blue-400">&larr; Kembali ke Beranda</a>
+      <% if (platform === "youtube") { %>
+        <div class="text-center w-full">
+          <img src="<%= data.thumbnail %>" alt="Thumbnail" class="rounded-lg mb-4 max-w-full shadow-lg" />
+          <h3 class="text-xl font-semibold"><%= data.title %></h3>
+          <p class="text-gray-400 text-sm mb-2">Oleh: <a href="" class="text-blue-400"><%= data.author %></a></p>
+          
+          <a href="<%= data.mp4 %>" class="block bg-blue-600 text-white py-3 rounded-lg mt-4 hover:bg-blue-700 transform transition-transform duration-300 hover:scale-105 w-full">Download Video</a>
+          <a href="<%= data.mp3 %>" class="block bg-gray-600 text-white py-3 rounded-lg mt-4 hover:bg-gray-700 transform transition-transform duration-300 hover:scale-105 w-full">Download Audio</a>
+        </div>
+      <% } else if (platform === "facebook") { %>
+        <h3 class="text-xl font-semibold text-center mb-3">Facebook Video</h3>
+        <video controls class="w-full rounded-lg mb-3 shadow-lg">
+          <source src="<%= data.Normal_video %>" type="video/mp4" />
+        </video>
+        <a href="<%= data.Normal_video %>" class="block bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 text-center transform transition-transform duration-300 hover:scale-105 w-full">Download Video</a>
+        <video controls class="w-full rounded-lg mt-3 shadow-lg">
+          <source src="<%= data.HD %>" type="video/mp4" />
+        </video>
+        <a href="<%= data.HD %>" class="block bg-gray-600 text-white py-3 rounded-lg mt-2 hover:bg-gray-700 text-center transform transition-transform duration-300 hover:scale-105 w-full">Download HD Video</a>
+      <% } else if (platform === "instagram") { %>
+        <h3 class="text-xl font-semibold text-center mb-3">Instagram Videos</h3>
+        <div class="grid grid-cols-2 gap-4 mt-4">
+          <% data.forEach(function(video, index) { %>
+            <div class="text-center">
+              <img src="<%= video.thumbnail %>" alt="Thumbnail <%= index + 1 %>" class="rounded-lg w-full h-auto mb-2 shadow-lg" />
+              <a href="<%= video.url %>" class="block bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transform transition-transform duration-300 hover:scale-105 w-full">Download Media <%= index + 1 %></a>
+            </div>
+          <% }); %>
+        </div>
+        <% } else if (platform === "tiktok") { %>
+          <% try { %>
+            <div class="text-center">
+              <h3 class="text-xl font-semibold"><%= data.data.title %></h3>
+              <p class="text-gray-400 text-sm mb-2">Oleh: <a href="#" class="text-blue-400"><%= data.data.author.nickname %></a></p>
+            </div>
+            
+            <div class="grid grid-cols-3 gap-2 text-center text-gray-400 text-sm mb-4">
+              <div class="bg-gray-800 p-2 rounded-lg shadow-lg">
+                <p class="text-white font-semibold"><%= data.data.comment %></p>
+                <p>Komentar</p>
+              </div>
+              <div class="bg-gray-800 p-2 rounded-lg shadow-lg">
+                <p class="text-white font-semibold"><%= data.data.view %></p>
+                <p>Likes</p>
+              </div>
+              <div class="bg-gray-800 p-2 rounded-lg shadow-lg">
+                <p class="text-white font-semibold"><%= data.data.download %></p>
+                <p>Download</p>
+              </div>
+              <div class="bg-gray-800 p-2 rounded-lg shadow-lg">
+                <p class="text-white font-semibold"><%= data.data.play %></p>
+                <p>Views</p>
+              </div>
+              <div class="bg-gray-800 p-2 rounded-lg shadow-lg">
+                <p class="text-white font-semibold"><%= data.data.share %></p>
+                <p>Shares</p>
+              </div>
+              <div class="bg-gray-800 p-2 rounded-lg shadow-lg">
+                <p class="text-white font-semibold">0</p>
+                <p>Favorites</p>
+              </div>
+            </div>
+            
+            <% const isImageTikTok = (data.data.images && data.data.images.length > 0) || (data.data.video && data.data.audio && data.data.video === data.data.audio); %>
+            
+            <% if (data.data.video && !isImageTikTok) { %>
+              <video controls class="w-full rounded-lg mb-3 shadow-lg">
+                <source src="<%= data.data.video %>" type="video/mp4" />
+              </video>
+              <a href="<%= data.data.video %>" class="block bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 text-center transform transition-transform duration-300 hover:scale-105 w-full">Download Video</a>
+              
+              <% if (data.data.audio) { %>
+                <audio controls class="w-full rounded-lg mt-3 shadow-lg">
+                  <source src="<%= data.data.audio %>" type="audio/mpeg" />
+                </audio>
+                <p class="text-gray-400 text-sm mb-2 text-center">Audio</p>
+                <a href="<%= data.data.audio %>" class="block bg-gray-600 text-white py-3 rounded-lg mt-2 hover:bg-gray-700 text-center transform transition-transform duration-300 hover:scale-105 w-full">Download Music</a>
+              <% } %>
+            <% } %>
+            
+            <% if (isImageTikTok) { %>
+              <% if (data.data.audio) { %>
+                <audio controls class="w-full rounded-lg mt-3 shadow-lg">
+                  <source src="<%= data.data.audio %>" type="audio/mpeg" />
+                </audio>
+                <p class="text-gray-400 text-sm mb-2 text-center">Audio</p>
+                <a href="<%= data.data.audio %>" class="block bg-gray-600 text-white py-3 rounded-lg mt-2 hover:bg-gray-700 text-center transform transition-transform duration-300 hover:scale-105 w-full">Download Music</a>
+              <% } %>
+              
+              <% if (data.data.images && data.data.images.length > 0) { %>
+                <div class="grid grid-cols-2 gap-4 mt-4">
+                  <% data.data.images.forEach(function(img) { %>
+                    <div class="text-center">
+                      <img src="<%= img %>" alt="Gambar TikTok" class="rounded-lg w-full h-auto mb-2 shadow-lg" />
+                      <a href="<%= img %>" download="tiktok-image.jpg" class="block bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transform transition-transform duration-300 hover:scale-105 w-full">Download Gambar</a>
+                    </div>
+                  <% }); %>
+                </div>
+              <% } else if (data.data.video) { %>
+                <div class="text-center mt-4">
+                  <img src="<%= data.data.thumbnail %>" alt="Gambar TikTok" class="rounded-lg w-full h-auto mb-2 shadow-lg" />
+                  <a href="<%= data.data.thumbnail %>" download="tiktok-image.jpg" class="block bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transform transition-transform duration-300 hover:scale-105 w-full">Download Gambar</a>
+                </div>
+              <% } %>
+            <% } %>
+          <% } catch (error) { %>
+            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+              <p><strong>Error:</strong> <%= error.message %></p>
+            </div>
+          <% } %>
+        <% } else if (platform === "twitter") { %>
+        <h3 class="text-xl font-semibold text-center mb-3">Twitter Video</h3>
+        <p class="text-center text-gray-400">Title: <%= data.title %></p>
+        <video controls class="w-full rounded-lg mb-3 shadow-lg">
+          <source src="<%= data.url[0].hd %>" type="video/mp4" />
+        </video>
+        <a href="<%= data.url[0].hd %>" class="block bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 text-center transform transition-transform duration-300 hover:scale-105 w-full">Download HD Video</a>
+        <video controls class="w-full rounded-lg mt-3 shadow-lg">
+          <source src="<%= data.url[1].sd %>" type="video/mp4" />
+        </video>
+        <a href="<%= data.url[1].sd %>" class="block bg-gray-600 text-white py-3 rounded-lg mt-2 hover:bg-gray-700 text-center transform transition-transform duration-300 hover:scale-105 w-full">Download SD Video</a>
+      <% } else { %>
+        <p class="text-red-500 text-center">Platform tidak dikenali atau terjadi kesalahan.</p>
+      <% } %>
+    </div>
+    <script>
+      particlesJS("particles-js", {
+        particles: {
+          number: { value: 80 },
+          size: { value: 3 },
+          move: {
+            enable: true,
+            speed: 3,
+            out_mode: "bounce"
+          },
+          line_linked: { enable: true },
+        },
+        interactivity: {
+          detect_on: "canvas",
+          events: {
+            onhover: {
+              enable: true,
+              mode: "repulse"
+            }
+          },
+          modes: {
+            repulse: {
+              distance: 100,
+              duration: 0.4
+            }
+          }
+        }
+      });
+    </script>
+  </body>
+</html>
