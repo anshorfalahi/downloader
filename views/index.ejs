@@ -42,7 +42,7 @@
       <% } %>
       <form action="/download" method="POST" oninput="detectPlatform()" class="space-y-4">
         <div>
-          <input type="url" id="url" name="url" class="w-full p-3 text-gray-600 rounded-lg border focus:border-blue-500 focus:ring focus:ring-blue-500 shadow-inner" placeholder="Masukkan URL" required>
+          <input type="url" id="url" name="url" class="w-full p-3 text-center placeholder:text-center text-gray-600 rounded-lg border focus:border-blue-500 focus:ring focus:ring-blue-500 shadow-inner" placeholder="Masukkan URL" required>
         </div>
         <input type="hidden" id="platform" name="platform" />
         <button id="submitBtn" type="submit" class="w-full py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-lg hover:bg-blue-700 transition-all transform hover:scale-105">Download Sekarang</button>
