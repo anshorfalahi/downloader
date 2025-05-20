@@ -38,8 +38,23 @@ app.post("/download", async (req, res) => {
             response = await btchDownloader.ttdl(url);
         } else if (platform === "twitter") {
             response = await btchDownloader.twitter(url);
+        } else if (platform === "aio") {
+            response = await btchDownloader.aio(url);
+        } else if (platform === "mediafire") {
+            response = await btchDownloader.mediafire(url);
+        } else if (platform === "capcut") {
+            response = await btchDownloader.capcut(url);
+        } else if (platform === "gdrive") {
+            response = await btchDownloader.gdrive(url);
+        } else if (platform === "pinterest") {
+            response = await btchDownloader.pinterest(url);
         } else {
             return res.render("index", { error: "Platform tidak didukung!" });
+        }
+
+        // Cek jika response error dari btchDownloader
+        if (response && response.status === false) {
+            return res.render("index", { error: response.message });
         }
 
         res.render("result", { data: response, platform });

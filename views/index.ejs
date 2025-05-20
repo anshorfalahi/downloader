@@ -49,25 +49,43 @@
     
     <script>
       function detectPlatform() {
-        const urlInput = document.getElementById("url").value;
+        const urlInput = document.getElementById("url").value.trim();
         const platformInput = document.getElementById("platform");
-        if (urlInput.includes("youtube.com") || urlInput.includes("youtu.be")) {
-          platformInput.value = "youtube";
-        } else if (urlInput.includes("facebook.com")) {
-          platformInput.value = "facebook";
-        } else if (urlInput.includes("instagram.com")) {
-          platformInput.value = "instagram";
-        } else if (urlInput.includes("tiktok.com")) {
-          platformInput.value = "tiktok";
-        } else if (urlInput.includes("twitter.com") || urlInput.includes("x.com")) {
-          platformInput.value = "twitter";
-        } else {
+        let hostname = "";
+        try {
+          if (urlInput) {
+            hostname = new URL(urlInput).hostname.replace('www.', '');
+          }
+        } catch (e) {
           platformInput.value = "";
+          return;
+        }
+
+        if (hostname.includes("youtube.com") || hostname.includes("youtu.be")) {
+          platformInput.value = "youtube";
+        } else if (hostname.includes("facebook.com")) {
+          platformInput.value = "facebook";
+        } else if (hostname.includes("instagram.com")) {
+          platformInput.value = "instagram";
+        } else if (hostname.includes("tiktok.com")) {
+          platformInput.value = "tiktok";
+        } else if (hostname.includes("twitter.com") || hostname.includes("x.com")) {
+          platformInput.value = "twitter";
+        } else if (hostname.includes("mediafire.com")) {
+          platformInput.value = "mediafire";
+        } else if (hostname.includes("capcut.com")) {
+          platformInput.value = "capcut";
+        } else if (hostname.includes("drive.google.com")) {
+          platformInput.value = "gdrive";
+        } else if (hostname.includes("pinterest.com") || hostname.includes("pin.it")) {
+          platformInput.value = "pinterest";
+        } else {
+          platformInput.value = "aio" // Default to "aio" if no specific platform is detected
         }
       }
       
       particlesJS("particles-js", {
-        particles: {
+        particles: {  
           number: { value: 80 },
           size: { value: 3 },
           move: {

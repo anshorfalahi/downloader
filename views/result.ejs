@@ -113,8 +113,134 @@
           <source src="<%= data.url[1].sd %>" type="video/mp4" />
         </video>
         <a href="<%= data.url[1].sd %>" class="block bg-gray-600 text-white py-3 rounded-lg mt-2 hover:bg-gray-700 text-center transform transition-transform duration-300 hover:scale-105 w-full">Download SD Video</a>
+      <% } else if (platform === "aio") { %>
+        <h3 class="text-xl font-semibold text-center mb-3">AIO Media</h3>
+        <% if (Array.isArray(data.url) && data.url.length > 0) { %>
+          <ul class="space-y-3 mt-4">
+            <% data.url.forEach(function(link, idx) { %>
+              <li>
+                <a href="<%= link %>" target="_blank" class="block bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transform transition-transform duration-300 hover:scale-105 w-full text-center">
+                  Download Link <%= idx + 1 %>
+                </a>
+              </li>
+            <% }); %>
+          </ul>
+        <% } else { %>
+          <p class="text-red-500 text-center">Tidak ada link yang ditemukan.</p>
+        <% } %>
+      <% } else if (platform === "mediafire") { %>
+        <h3 class="text-xl font-semibold text-center mb-3">MediaFire File</h3>
+        <div class="text-center">
+          <p class="mb-2 text-gray-400">Nama File: <%= data.result.filename %></p>
+          <a href="<%= data.result.url %>" target="_blank" class="block bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition-transform duration-300 hover:scale-105 w-full">Download File</a>
+          <p class="mt-2 text-gray-400 text-sm">Ukuran: <%= data.result.filesize %></p>
+        </div>
+      <% } else if (platform === "gdrive") { %>
+        <h3 class="text-xl font-semibold text-center mb-3">Google Drive File</h3>
+        <div class="text-center">
+          <p class="mb-2 text-gray-400">Nama File: <%= data.result.filename %></p>
+          <a href="<%= data.result.downloadUrl %>" target="_blank" class="block bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition-transform duration-300 hover:scale-105 w-full">Download File</a>
+          <p class="mt-2 text-gray-400 text-sm">Ukuran: <%= data.result.filesize %></p>
+        </div>
+      <% } else if (platform === "capcut") {
+        const meta = data.data.meta;
+        const author = meta.author;
+      %>
+        <h3 class="text-2xl font-bold text-center mb-6 text-white">🎬 Capcut Template</h3>
+        <div class="bg-zinc-900 shadow-xl rounded-2xl p-6 max-w-2xl mx-auto text-white">
+
+          <!-- Cover -->
+          <% if (meta.coverUrl) { %>
+            <img src="<%= meta.coverUrl %>" alt="Template Cover" class="rounded-xl shadow-md mx-auto mb-6 w-full max-w-sm object-cover" />
+          <% } %>
+
+          <!-- Title & Description -->
+          <div class="text-center mb-4">
+            <h4 class="text-xl font-semibold mb-1"><%= meta.title %></h4>
+            <% if (meta.desc) { %>
+              <p class="text-sm text-gray-400"><%= meta.desc %></p>
+            <% } %>
+          </div>
+
+          <!-- Buttons -->
+          <div class="flex flex-col sm:flex-row justify-center gap-4 mb-6">
+            <a href="<%= data.url %>" target="_blank" class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-300 text-center w-full sm:w-auto">
+              🌐 Buka Template
+            </a>
+            <a href="<%= data.data.contentUrl %>" target="_blank" class="bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700 transition duration-300 text-center w-full sm:w-auto">
+              ▶️ Putar Video
+            </a>
+          </div>
+
+          <!-- Video Info -->
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 text-center text-sm text-gray-300 mb-6">
+            <div>
+              <p class="font-semibold text-white"><%= meta.play.toLocaleString() %></p>
+              <p>Play</p>
+            </div>
+            <div>
+              <p class="font-semibold text-white"><%= meta.like.toLocaleString() %></p>
+              <p>Like</p>
+            </div>
+            <div>
+              <p class="font-semibold text-white"><%= meta.usage.toLocaleString() %></p>
+              <p>Digunakan</p>
+            </div>
+            <div>
+              <p class="font-semibold text-white"><%= (meta.duration / 1000).toFixed(1) %>s</p>
+              <p>Durasi</p>
+            </div>
+            <div>
+              <p class="font-semibold text-white"><%= meta.videoRatio %></p>
+              <p>Rasio</p>
+            </div>
+            <div>
+              <p class="font-semibold text-white"><%= new Date(data.data.uploadDate).toLocaleDateString() %></p>
+              <p>Upload</p>
+            </div>
+          </div>
+
+          <!-- Author -->
+          <div class="text-center border-t border-gray-700 pt-6 mt-6">
+            <img src="<%= author.avatarUrl %>" alt="Author Avatar" class="w-14 h-14 rounded-full mx-auto mb-2 border border-gray-500" />
+            <p class="font-semibold text-lg"><%= author.name %></p>
+            <% if (author.description) { %>
+              <p class="text-sm text-gray-400 whitespace-pre-line mt-2"><%= author.description %></p>
+            <% } %>
+            <% if (author.profileUrl) { %>
+              <a href="https://www.capcut.com<%= author.profileUrl %>" target="_blank" class="inline-block mt-3 text-blue-400 text-sm hover:underline">Lihat Profil</a>
+            <% } %>
+          </div>
+        </div>
+      <% } else if (platform === "pinterest") { %>
+        <h3 class="text-xl font-semibold text-center mb-3">Pinterest Media</h3>
+        <% if (Array.isArray(data.result) && data.result.length > 0) { %>
+          <div class="grid grid-cols-1 gap-4 mt-4">
+            <% data.result.forEach(function(item, idx) { %>
+              <div class="text-center">
+                <img src="<%= item.url %>" alt="Pinterest <%= idx + 1 %>" class="rounded-lg w-full h-auto mb-2 shadow-lg" />
+                <a href="<%= item.url %>" target="_blank" class="block bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transform transition-transform duration-300 hover:scale-105 w-full">Download Media <%= idx + 1 %></a>
+              </div>
+            <% }); %>
+          </div>
+        <% } else { %>
+          <p class="text-red-500 text-center">Tidak ada media ditemukan.</p>
+        <% } %>
       <% } else { %>
-        <p class="text-red-500 text-center">Platform tidak dikenali atau terjadi kesalahan.</p>
+        <h3 class="text-xl font-semibold text-center mb-3">All In One Media</h3>
+        <% if (Array.isArray(data.url) && data.url.length > 0) { %>
+          <ul class="space-y-3 mt-4">
+            <% data.url.forEach(function(link, idx) { %>
+              <li>
+                <a href="<%= link %>" target="_blank" class="block bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transform transition-transform duration-300 hover:scale-105 w-full text-center">
+                  Download Link <%= idx + 1 %>
+                </a>
+              </li>
+            <% }); %>
+          </ul>
+        <% } else { %>
+          <p class="text-red-500 text-center">Tidak ada link yang ditemukan.</p>
+        <% } %>
       <% } %>
     </div>
     <script>
