@@ -1,0 +1,20 @@
+{
+  "name": "unduh",
+  "version": "1.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "keywords": [],
+  "author": "Anshor Falahi",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.9.0",
+    "body-parser": "^2.2.0",
+    "btch-downloader": "^4.0.9",
+    "ejs": "^3.1.10",
+    "express": "^5.1.0"
+  }
+}
